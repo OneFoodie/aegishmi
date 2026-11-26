@@ -5,6 +5,8 @@ JSON 驱动的自动测试流程、质量闭环（SPC / FAI / Andon）、SQLite 
 
 工程自带设备模拟器与 10 台模拟仪表联调脚本，没有真实硬件也能完整演示。
 
+<img src="aegishmi/docs/images/screenshot.png" alt="AegisHMI 界面截图" width="960">
+
 ## 亮点
 
 - **设备接入**：TCP 自定义协议 / Modbus TCP / Modbus RTU / OPC UA / SCPI 仪器；多设备、多链路并发。

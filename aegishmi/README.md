@@ -5,6 +5,8 @@
 
 配套设备模拟器（`aegis_sim`）可在没有真实硬件时完整演示链路，同时对外提供四种协议服务。
 
+<img src="docs/images/screenshot.png" alt="AegisHMI 界面截图" width="960">
+
 ---
 
 ## 1. 功能概览
