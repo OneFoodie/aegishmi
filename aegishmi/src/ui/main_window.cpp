@@ -15,6 +15,7 @@
 #include "ui/help_dialog.h"           // 快速上手指南
 #include "ui/history_page.h"         // 历史记录页
 #include "ui/login_dialog.h"         // 切换用户
+#include "ui/plugin_page.h"           // 插件管理
 #include "ui/shift_page.h"           // 班组与交接班
 #include "ui/spc_page.h"             // SPC 控制图
 #include "ui/test_page.h"            // 自动测试页
@@ -320,6 +321,10 @@ void MainWindow::buildUi()
     shiftPage_ = new ShiftPage(repository_, auth_, stationConfig_, this);
     tabs_->addTab(shiftPage_, tr("班组"));
 
+    // 插件页：展示/自检外部插件项目（插件工程独立维护，运行期从 plugins 目录加载）。
+    pluginPage_ = new PluginPage(stationConfig_, auth_, this);
+    tabs_->addTab(pluginPage_, tr("插件"));
+
     // 报警页：阈值报警列表与确认（观察员只读）。
     alarmPage_ = new AlarmPage(systemRepository_, auth_, alarmMonitor_, this);
     alarmTabIndex_ = tabs_->addTab(alarmPage_, tr("报警"));
@@ -346,6 +351,8 @@ void MainWindow::buildUi()
             spcPage_->refresh();
         if (shiftPage_ != nullptr && tabs_->widget(index) == shiftPage_)
             shiftPage_->refresh();
+        if (pluginPage_ != nullptr && tabs_->widget(index) == pluginPage_)
+            pluginPage_->refresh();
         if (alarmPage_ != nullptr && tabs_->widget(index) == alarmPage_)
             alarmPage_->refresh();
         if (auditPage_ != nullptr && tabs_->widget(index) == auditPage_)
@@ -444,6 +451,7 @@ void MainWindow::retranslateUi()
         tabs_->setTabText(TabTrend, tr("趋势"));
         tabs_->setTabText(TabSpc, tr("SPC"));
         tabs_->setTabText(TabShift, tr("班组"));
+        tabs_->setTabText(TabPlugin, tr("插件"));
         if (alarmTabIndex_ >= 0)
             tabs_->setTabText(alarmTabIndex_, tr("报警"));
         if (auditTabIndex_ >= 0)
@@ -459,6 +467,7 @@ void MainWindow::retranslateUi()
         tabs_->setTabToolTip(TabTrend, tr("秒级 min/max 包络与平均值曲线"));
         tabs_->setTabToolTip(TabSpc, tr("Cp/Cpk 与控制图判异"));
         tabs_->setTabToolTip(TabShift, tr("班次、交接班记录与操作员资质"));
+        tabs_->setTabToolTip(TabPlugin, tr("用户插件：版本/能力/清单状态、自检与目录管理"));
         if (alarmTabIndex_ >= 0)
             tabs_->setTabToolTip(alarmTabIndex_, tr("阈值报警列表与确认/恢复（标题显示未恢复数量）"));
         if (auditTabIndex_ >= 0)
@@ -505,7 +514,7 @@ QWidget* MainWindow::createNavigationRail()
     // 与页签顺序一一对应；文字统一在 syncNavigation 里跟随页签文案（支持多语言）。
     const char* const iconKinds[] = {
         "production", "monitor", "test", "history", "trend",
-        "spc", "shift", "alarm", "audit", "user",
+        "spc", "shift", "plugin", "alarm", "audit", "user",
     };
     const int kindCount = static_cast<int>(sizeof(iconKinds) / sizeof(iconKinds[0]));
 
@@ -569,6 +578,7 @@ void MainWindow::updatePageHeader(int index)
         QStringLiteral("秒级趋势包络与多通道对比"),
         QStringLiteral("Cp/Cpk 与控制图判异"),
         QStringLiteral("班次、交接班记录与人员资质"),
+        QStringLiteral("外部插件：版本/能力、清单状态、自检与目录管理"),
         QStringLiteral("阈值报警确认与搁置处理"),
         QStringLiteral("登录、连接、测试与复核的审计留痕"),
         QStringLiteral("账号、角色与口令管理"),
@@ -1427,6 +1437,8 @@ void MainWindow::applyRolePermissions()
         historyPage_->setExportAllowed(operate);
     if (shiftPage_ != nullptr)
         shiftPage_->setOperationAllowed(operate);
+    if (pluginPage_ != nullptr)
+        pluginPage_->setOperationAllowed(operate);
     if (alarmPage_ != nullptr)
         alarmPage_->setAckAllowed(operate);
     if (tabs_ != nullptr && auditTabIndex_ >= 0)

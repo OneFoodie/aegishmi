@@ -24,6 +24,7 @@
 | 命令交互 | SET_VOUT / SET_IOUT / READ_MEASURE / RESET，Ack 应答 + 超时 | 已实现 |
 | 自动测试 | JSON 流程、变量替换、command/delay/measure/readVersion/script/plugin/subFlow/prompt、条件与 goto、上下限与版本判定、重试/中止；图形化流程编辑器与单步调试 | 已实现 |
 | 界面框架 | 工业风左侧导航 + 深色控制台顶栏 + 页面标题区；全局状态条与报警横幅；链路健康面板、设备 Faceplate、KPI 卡片、首次启动快速上手 | 已实现 |
+| 用户插件 | 独立进程 + JSON stdio；清单 v2（apiVersion/版本/能力）；插件管理页（版本/能力/清单状态/自检/目录）；插件工程独立维护 | 已实现 |
 | 生产防呆 | 工单绑定、SN 扫码校验、一码一测、复测确认、工位/治具/操作员追溯 | 已实现 |
 | 测试方案库 | 扫描 `configs/flows`，工单绑定方案并自动加载；方案产品与工单不一致时拦截 | 已实现 |
 | 用户管理 | 管理员新建用户、改角色、重置口令、启用/停用；保护最后一个管理员 | 已实现 |
@@ -73,6 +74,7 @@ aegishmi/
 ├─ configs/flows/*.json        # 示例测试方案
 ├─ configs/devices/*.json      # 通道配置（active.json）+ 设备清单（fleet.json）
 ├─ configs/station.json        # 工位/线体/治具/SN 规则/MES 参数
+├─ plugins/                    # 运行期插件目录（可空；插件工程独立：aegis-plugin-sdk）
 ├─ scripts/                    # build / deploy / 下载 open62541 / Inno Setup
 ├─ docker/Dockerfile           # Linux 构建与测试镜像
 ├─ third_party/                # open62541（可选，缺失时自动关闭 OPC UA）

@@ -59,6 +59,12 @@ market-gap-analysis/  市场/功能对标分析材料
 - 界面演示步骤：[docs/08_界面演示启动步骤.md](aegishmi/docs/08_界面演示启动步骤.md)
 - 需求/设计/测试文档：`aegishmi/docs/`
 
+## 相关项目
+
+- [aegis-plugin-sdk](https://github.com/OneFoodie/aegis-plugin-sdk)：独立的用户插件工程
+  （JSON stdio 协议、manifest v2、Python/C++ 示例与自检工具）。插件目录可整包复制到
+  上位机的 `plugins/`，无需重新编译主程序。
+
 ## 测试
 
 ```powershell

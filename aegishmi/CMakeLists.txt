@@ -200,6 +200,8 @@ qt_add_executable(aegis_hmi WIN32
     src/ui/main_window.h
     src/ui/pdf_report.cpp
     src/ui/pdf_report.h
+    src/ui/plugin_page.cpp
+    src/ui/plugin_page.h
     src/ui/shift_page.cpp
     src/ui/shift_page.h
     src/ui/sop_dialog.cpp

@@ -136,6 +136,7 @@ HelpDialog::HelpDialog(QWidget* parent)
     addTabRow(mapGrid, row++, QStringLiteral("趋势"), QStringLiteral("秒级包络 + 多通道叠加对比与快捷时间范围"));
     addTabRow(mapGrid, row++, QStringLiteral("SPC"), QStringLiteral("Cp/Cpk、I-MR 控制图、判异与 Andon 联动"));
     addTabRow(mapGrid, row++, QStringLiteral("班组"), QStringLiteral("班次与交接班记录、操作员资质、当班汇总"));
+    addTabRow(mapGrid, row++, QStringLiteral("插件"), QStringLiteral("外部插件：版本/能力、清单状态、自检与目录管理"));
     addTabRow(mapGrid, row++, QStringLiteral("报警"), QStringLiteral("阈值报警确认/搁置，页签标题显示未恢复数量"));
     addTabRow(mapGrid, row++, QStringLiteral("审计"), QStringLiteral("登录、连接、测试、复核等操作留痕（仅管理员可见）"));
     addTabRow(mapGrid, row++, QStringLiteral("用户"), QStringLiteral("账号、角色与口令管理（仅管理员可见）"));

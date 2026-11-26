@@ -54,6 +54,7 @@ class AlarmPage;    // 报警页（见 alarm_page.h）
 class AuditPage;    // 审计页（见 audit_page.h）
 class DashboardPage; // 生产看板（见 dashboard_page.h）
 class SpcPage;       // SPC 控制图（见 spc_page.h）
+class PluginPage;    // 插件管理（见 plugin_page.h）
 class ShiftPage;     // 班组与交接班（见 shift_page.h）
 class UserPage;      // 用户管理（见 user_page.h）
 
@@ -138,6 +139,7 @@ private:
         TabTrend,
         TabSpc,
         TabShift,
+        TabPlugin,
     };
     QHash<QString, int> alarmCounts_;                   // 每台设备未恢复报警数（列表⚠）
     int auditTabIndex_ = -1;                            // 审计页签下标（仅管理员可见）
@@ -159,6 +161,7 @@ private:
     AuditPage* auditPage_ = nullptr;
     SpcPage* spcPage_ = nullptr;
     ShiftPage* shiftPage_ = nullptr;
+    PluginPage* pluginPage_ = nullptr;
     UserPage* userPage_ = nullptr;
 
     // ---- 左侧控制区 ----

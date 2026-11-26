@@ -39,6 +39,18 @@ bool makePlugin(const QString& root, const QString& name, const QString& mode, i
     return true;
 }
 
+// 写入自定义 manifest（用于元数据/版本校验用例）。
+bool writeManifest(const QString& root, const QString& name, const QJsonObject& manifest)
+{
+    const QString dir = QDir(root).filePath(name);
+    if (!QDir().mkpath(dir))
+        return false;
+    QFile file(QDir(dir).filePath(QStringLiteral("manifest.json")));
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+        return false;
+    return file.write(QJsonDocument(manifest).toJson()) > 0;
+}
+
 } // namespace
 
 class TstPlugin : public QObject {
@@ -52,6 +64,8 @@ private slots:
     void invalidJsonRejected();
     void missingManifestRejected();
     void unsafeNameRejected();
+    void listPluginsReadsMetadata();
+    void unsupportedApiVersionRejected();
 };
 
 void TstPlugin::passReturnsMeasures()
@@ -146,6 +160,63 @@ void TstPlugin::unsafeNameRejected()
                                                   QStringLiteral("../evil"),
                                                   QJsonObject(), 5000);
     QVERIFY(!result.ok);
+}
+
+// 插件目录扫描：读取版本/能力，非插件目录忽略。
+void TstPlugin::listPluginsReadsMetadata()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    const QString root = dir.filePath(QStringLiteral("plugins"));
+    QVERIFY(QDir().mkpath(root));
+
+    const QString stub =
+        QDir(QCoreApplication::applicationDirPath()).filePath(QStringLiteral("plugin_stub.exe"));
+    QJsonObject manifest;
+    manifest.insert(QStringLiteral("apiVersion"), 1);
+    manifest.insert(QStringLiteral("version"), QStringLiteral("2.1.0"));
+    manifest.insert(QStringLiteral("description"), QStringLiteral("电压检查"));
+    manifest.insert(QStringLiteral("capabilities"), QJsonArray{QStringLiteral("voltage"),
+                                                               QStringLiteral("demo")});
+    manifest.insert(QStringLiteral("entry"), QJsonArray{stub, QStringLiteral("pass")});
+    QVERIFY(writeManifest(root, QStringLiteral("demo"), manifest));
+
+    // 非插件目录（没有 manifest.json）不进入列表。
+    QVERIFY(QDir().mkpath(QDir(root).filePath(QStringLiteral("docs"))));
+
+    const QVector<PluginInfo> plugins = PluginRunner::listPlugins(root);
+    QCOMPARE(plugins.size(), 1);
+    QCOMPARE(plugins.first().name, QStringLiteral("demo"));
+    QVERIFY(plugins.first().valid);
+    QCOMPARE(plugins.first().version, QStringLiteral("2.1.0"));
+    QVERIFY(plugins.first().capabilities.contains(QStringLiteral("voltage")));
+}
+
+// 清单 API 版本高于主程序支持范围：拒绝加载并给出原因。
+void TstPlugin::unsupportedApiVersionRejected()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    const QString root = dir.filePath(QStringLiteral("plugins"));
+
+    const QString stub =
+        QDir(QCoreApplication::applicationDirPath()).filePath(QStringLiteral("plugin_stub.exe"));
+    QJsonObject manifest;
+    manifest.insert(QStringLiteral("apiVersion"), 99);
+    manifest.insert(QStringLiteral("entry"), QJsonArray{stub, QStringLiteral("pass")});
+    QVERIFY(writeManifest(root, QStringLiteral("future"), manifest));
+
+    PluginInfo info;
+    QString error;
+    QVERIFY(!PluginRunner::readInfo(root, QStringLiteral("future"), &info, &error));
+    QVERIFY(info.name == QStringLiteral("future"));
+    QVERIFY(!info.valid);
+    QVERIFY(error.contains(QStringLiteral("API")));
+
+    const PluginResult result =
+        PluginRunner::run(root, QStringLiteral("future"), QJsonObject(), 1000);
+    QVERIFY(!result.ok);
+    QVERIFY(result.error.contains(QStringLiteral("API")));
 }
 
 QTEST_GUILESS_MAIN(TstPlugin)

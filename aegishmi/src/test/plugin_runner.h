@@ -3,6 +3,7 @@
 #include <QJsonObject>
 #include <QString>
 #include <QStringList>
+#include <QVector>
 
 namespace aegis::test {
 
@@ -14,6 +15,19 @@ struct PluginResult {
     QJsonObject measures;   // 可选实测值（measure.value 会写入步骤实测值）
     QString log;            // stderr 日志
     QString error;          // ok=false 时的原因
+};
+
+// 插件清单元数据（manifest.json v2）。用于插件管理页与复用分发。
+struct PluginInfo {
+    QString name;                  // 目录名，也是流程里的插件名
+    QString version;               // 插件自身版本
+    int apiVersion = 1;            // 清单/协议版本，当前只支持 1
+    QString description;           // 一句话说明
+    QString author;                // 作者/维护人
+    QStringList capabilities;      // 能力标签，如 voltage/current/vision
+    int timeoutMs = 5000;          // 默认超时
+    bool valid = false;            // 清单是否可用
+    QString error;                 // 不可用原因
 };
 
 // =============================================================================
@@ -35,6 +49,13 @@ public:
     // 读取 manifest。command 为入口命令（数组），timeoutMs 为清单默认超时。
     static bool readManifest(const QString& pluginsRoot, const QString& name,
                              QStringList* command, int* timeoutMs, QString* error);
+
+    // 读取插件元数据（版本/能力/说明）。valid=false 时 error 给出原因。
+    static bool readInfo(const QString& pluginsRoot, const QString& name,
+                         PluginInfo* info, QString* error);
+
+    // 扫描插件根目录下所有含 manifest.json 的子目录（用于插件管理页）。
+    static QVector<PluginInfo> listPlugins(const QString& pluginsRoot);
 
     // 调用插件。timeoutMs <= 0 时使用 manifest/默认值。
     static PluginResult run(const QString& pluginsRoot, const QString& name,

@@ -428,6 +428,12 @@ QIcon navIcon(const QString& kind, const QColor& color)
         painter.drawLine(QPointF(9, 27), QPointF(31, 27));
         painter.drawLine(QPointF(20, 9), QPointF(20, 12));
         painter.drawEllipse(QRectF(18, 28, 4, 4));
+    } else if (kind == QLatin1String("plugin")) {
+        // 插头：两脚 + 本体 + 线缆
+        painter.drawLine(QPointF(14, 9), QPointF(14, 15));
+        painter.drawLine(QPointF(26, 9), QPointF(26, 15));
+        painter.drawRoundedRect(QRectF(11, 15, 18, 12), 3, 3);
+        painter.drawLine(QPointF(20, 27), QPointF(20, 33));
     } else if (kind == QLatin1String("audit")) {
         QPainterPath shield;
         shield.moveTo(20, 9);
