@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "devices": [
+    {
+      "id": "dev1",
+      "name": "电源模块-1",
+      "protocol": "custom",
+      "host": "127.0.0.1",
+      "port": 9527,
+      "config": "active.json",
+      "autoConnect": true
+    },
+    {
+      "id": "dev2",
+      "name": "采集卡-2（32 通道）",
+      "protocol": "custom",
+      "host": "127.0.0.1",
+      "port": 9528,
+      "config": "lab_32ch.json",
+      "autoConnect": true
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+# 构建产物
+aegishmi/build/
+aegishmi/build-mingw/
+aegishmi/dist/
+aegishmi/installer/
+
+# 第三方源码（用 scripts/fetch_open62541.ps1 获取）
+aegishmi/third_party/open62541/
+
+# 运行产物 / 日志 / 本地数据库
+*.log
+aegishmi/out*.txt
+*.db
+*.db-wal
+*.db-shm
+
+# 临时与分享产物
+.screenshots/
+.trae-html-share-packages/
+
+# IDE / 系统
+.vs/
+.vscode/
+.idea/
+*.user
+Thumbs.db

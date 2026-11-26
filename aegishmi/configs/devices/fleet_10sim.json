@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "devices": [
+    { "id": "sim01", "name": "模拟仪表-01", "protocol": "custom", "host": "127.0.0.1", "port": 29527, "config": "active.json", "autoConnect": true },
+    { "id": "sim02", "name": "模拟仪表-02", "protocol": "custom", "host": "127.0.0.1", "port": 29528, "config": "active.json", "autoConnect": true },
+    { "id": "sim03", "name": "模拟仪表-03", "protocol": "custom", "host": "127.0.0.1", "port": 29529, "config": "active.json", "autoConnect": true },
+    { "id": "sim04", "name": "模拟仪表-04", "protocol": "custom", "host": "127.0.0.1", "port": 29530, "config": "active.json", "autoConnect": true },
+    { "id": "sim05", "name": "模拟仪表-05", "protocol": "custom", "host": "127.0.0.1", "port": 29531, "config": "active.json", "autoConnect": true },
+    { "id": "sim06", "name": "模拟仪表-06", "protocol": "custom", "host": "127.0.0.1", "port": 29532, "config": "active.json", "autoConnect": true },
+    { "id": "sim07", "name": "模拟仪表-07", "protocol": "custom", "host": "127.0.0.1", "port": 29533, "config": "active.json", "autoConnect": true },
+    { "id": "sim08", "name": "模拟仪表-08", "protocol": "custom", "host": "127.0.0.1", "port": 29534, "config": "active.json", "autoConnect": true },
+    { "id": "sim09", "name": "模拟仪表-09", "protocol": "custom", "host": "127.0.0.1", "port": 29535, "config": "active.json", "autoConnect": true },
+    { "id": "sim10", "name": "模拟仪表-10", "protocol": "custom", "host": "127.0.0.1", "port": 29536, "config": "active.json", "autoConnect": true }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "id": "power_module_basic",
+  "name": "电源模块出厂测试",
+  "description": "5V 输出电源模块的基础功能测试",
+  "product": "PM-5V-10A",
+  "defaultTimeoutMs": 1000,
+  "onFailure": "abort",
+  "variables": {
+    "voutNominalMv": 5000,
+    "ioutNominalMa": 1000
+  },
+  "steps": [
+    {
+      "id": "s1",
+      "name": "设置输出电压 5V",
+      "action": "command",
+      "params": { "cmd": "SET_VOUT", "valueMv": "${voutNominalMv}" },
+      "timeoutMs": 500,
+      "expect": { "ackStatus": 0 }
+    },
+    {
+      "id": "s2",
+      "name": "设置限流 1A",
+      "action": "command",
+      "params": { "cmd": "SET_IOUT", "valueMv": "${ioutNominalMa}" },
+      "timeoutMs": 500,
+      "expect": { "ackStatus": 0 }
+    },
+    {
+      "id": "s3",
+      "name": "等待输出稳定",
+      "action": "delay",
+      "params": { "ms": 300 }
+    },
+    {
+      "id": "s4",
+      "name": "测量输出电压",
+      "action": "measure",
+      "params": { "channel": 0, "windowMs": 200 },
+      "expect": { "metric": "avg", "min": 4750, "max": 5250, "unit": "mV" },
+      "timeoutMs": 1000
+    },
+    {
+      "id": "s5",
+      "name": "测量输出电流",
+      "action": "measure",
+      "params": { "channel": 1, "windowMs": 200 },
+      "expect": { "metric": "avg", "min": 900, "max": 1100, "unit": "mA" }
+    },
+    {
+      "id": "s6",
+      "name": "纹波峰峰值检查",
+      "action": "measure",
+      "params": { "channel": 0, "windowMs": 500 },
+      "expect": { "metric": "peakToPeak", "max": 50, "unit": "mV" },
+      "onFail": "continue"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "channelCount": 6,
+  "sampleRateHz": 10000,
+  "channels": [
+    { "name": "CH0", "unit": "mV", "description": "输出电压",
+      "high": 6000, "low": 4000, "deadband": 50,
+      "gain": 1.0, "offset": 0.0, "check": 5000, "checkTolerance": 50 },
+    { "name": "CH1", "unit": "mA", "description": "输出电流",
+      "high": 3000, "low": 50, "deadband": 20,
+      "gain": 1.0, "offset": 0.0, "check": 1000, "checkTolerance": 20 },
+    { "name": "CH2", "unit": "℃", "description": "温度",
+      "high": 400, "low": -100, "deadband": 5 },
+    { "name": "CH3", "unit": "mV", "description": "预留" },
+    { "name": "CH4", "unit": "", "description": "预留" },
+    { "name": "CH5", "unit": "", "description": "预留" }
+  ]
+}

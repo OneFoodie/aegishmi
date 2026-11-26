@@ -1,0 +1,110 @@
+{
+  "stationId": "ST-01",
+  "lineId": "L1",
+  "fixtureId": "FX-5V-01",
+  "snPattern": "^[A-Za-z0-9_-]{6,32}$",
+  "fai": {
+    "enabled": true,
+    "sampleCount": 1
+  },
+  "failReasons": [
+    "焊接不良",
+    "元件失效",
+    "参数漂移",
+    "装配错误",
+    "其他"
+  ],
+  "fixture": {
+    "maxRuns": 5000,
+    "calibrationDays": 365,
+    "calibratedUntil": ""
+  },
+  "sop": {
+    "enabled": true,
+    "requireRead": true,
+    "documents": [
+      {
+        "product": "PM-5V-10A",
+        "title": "电源模块 PM-5V-10A 出厂测试作业指导书",
+        "version": "A.1",
+        "steps": [
+          "确认治具清洁、接线无松动，工位处于待机状态。",
+          "扫描产品 SN，确认与工单产品一致。",
+          "将产品插入治具并锁紧压板，确认指示灯常亮。",
+          "加载测试方案 power_module_basic.json，点击开始测试。",
+          "测试过程中不得触碰产品；PASS 后取出放入良品箱。",
+          "FAIL 时按界面提示选择不良原因，产品放入红色不良盒。",
+          "连续 3 件 FAIL 或 FPY 低于 80% 时工位自动停线，请立即通知工艺/质量。"
+        ]
+      },
+      {
+        "product": "*",
+        "title": "通用测试工位安全须知",
+        "version": "A.0",
+        "steps": [
+          "佩戴防静电手环，工件轻拿轻放。",
+          "设备报警或异常时先停止测试，再排查接线。"
+        ]
+      }
+    ]
+  },
+  "qualification": {
+    "enabled": true,
+    "products": {
+      "PM-5V-10A": ["admin", "operator"],
+      "*": ["admin", "operator"]
+    }
+  },
+  "shifts": [
+    { "name": "白班", "start": "08:00", "end": "20:00" },
+    { "name": "夜班", "start": "20:00", "end": "08:00" }
+  ],
+  "andon": {
+    "enabled": true,
+    "consecutiveFails": 3,
+    "fpyThreshold": 80,
+    "minUnits": 5
+  },
+  "spc": {
+    "andonOnCpk": true,
+    "cpkThreshold": 1.0,
+    "minSamples": 10
+  },
+  "label": {
+    "enabled": true,
+    "directory": "",
+    "widthMm": 60,
+    "heightMm": 40
+  },
+  "report": {
+    "company": "AegisLab",
+    "title": "出厂测试报告",
+    "logo": "",
+    "footer": "AegisHMI 质量管理系统 · 本报告由系统自动生成",
+    "accentColor": "#2c3e50",
+    "signature": true,
+    "inspectorLabel": "检验员",
+    "reviewerLabel": "审核"
+  },
+  "mes": {
+    "enabled": false,
+    "url": "http://127.0.0.1:8080/api/test-results",
+    "timeoutMs": 5000,
+    "maxAttempts": 5,
+    "retryBaseMs": 2000,
+    "bomCheckPath": "",
+    "stationCheckPath": "",
+    "failOpen": true
+  },
+  "plugins": {
+    "dir": "plugins",
+    "timeoutMs": 5000,
+    "enabled": []
+  },
+  "qualityApprovalOnly": false,
+  "update": {
+    "enabled": false,
+    "manifest": "",
+    "checkOnStartup": true
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "entry": ["python", "check.py"],
+  "timeoutMs": 3000
+}

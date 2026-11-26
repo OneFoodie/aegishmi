@@ -1,0 +1,7 @@
+build/
+build-mingw/
+dist/
+out/
+.vs/
+*.user
+CMakeUserPresets.json
