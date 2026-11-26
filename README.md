@@ -51,7 +51,6 @@ $env:AEGIS_FLEET_CONFIG = (Resolve-Path 'configs/devices/fleet_10sim.json').Path
 ```
 aegishmi/          上位机源码、模拟器、测试、配置与文档
 market-gap-analysis/  市场/功能对标分析材料
-杭州C++上位机岗位分析与项目设计.md  项目背景与设计说明
 ```
 
 - 详细功能、目录与设计说明：[aegishmi/README.md](aegishmi/README.md)
